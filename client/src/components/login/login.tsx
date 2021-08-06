@@ -1,52 +1,47 @@
-import './register.css'
+import * as React from 'react'; 
+import './login.css'
 import { Room, Close } from '@material-ui/icons'
 import { useRef, useState } from 'react';
 import axios from 'axios';
 
-export default function Register({setShowRegister}) {
-  const [success, setSuccess] = useState(false);
+export default function Login({setShowLogin, myStorage, setCurrentUser}) {
   const [error, setError] = useState(false);
-  const nameRef = useRef();
-  const emailRef = useRef();
-  const passRef = useRef();
+
+  const nameRef = useRef(null);
+  const passRef = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newUser = {
+    const user = {
       username: nameRef.current.value,
-      email: emailRef.current.value,
       password: passRef.current.value
     };
     try {
-      await axios.post('http://localhost:3001/routes/users/register', newUser)
-      setError(false);
-      setSuccess(true);
+      const res = await axios.post('http://localhost:3001/routes/users/login', user);
+      myStorage.setItem('user', res.data.username);
+      setCurrentUser(res.data.username);
+      setShowLogin(false);
     } catch (e) {
       console.log(e)
       setError(true);
-      setSuccess(false);
     }
   }
 
   return (
-    <div className='registerContainer'>
+    <div className='loginContainer'>
       <div className='logo'>
         Movie Mapper
         <Room />
       </div>
       <form onSubmit={handleSubmit}>
         <input type='text' placeholder='username' ref={nameRef}/>
-        <input type='email' placeholder='email' ref={emailRef}/>
         <input type='password' placeholder='password' ref={passRef}/>
-        <button className='registerButton'>Register</button>
-        {success &&
-        <span className='success'>User successfully created, you may log in!</span>
-      }
+        <button className='loginButton'>Login</button>
         {error &&
         <span className='failure'>Something went wrong!</span>
         }
       </form>
-      <Close className='registerClose' onClick={()=>setShowRegister(false)}/>
+      <Close className='loginClose' onClick={()=>setShowLogin(false)}/>
     </div>
   )
 }

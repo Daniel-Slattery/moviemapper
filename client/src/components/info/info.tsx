@@ -1,8 +1,17 @@
+import * as React from 'react';
 import { Star } from '@material-ui/icons';
 import './info.css';
-import moment from 'moment';
+import * as moment from 'moment';
 
-export default function Info({pin}) {
+type Props = { pin: {
+  title: String;
+  description: String;
+  username: String;
+  createdAt: Date;
+  rating: any;
+}}
+
+export default function Info({pin}: Props) {
   return (
     <>
     <label>Location</label>
