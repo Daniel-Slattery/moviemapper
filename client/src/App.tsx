@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
@@ -7,7 +8,9 @@ import Login from './components/login/login';
 import Info from './components/info/info';
 import './App.css';
 
-function App() {
+type Props = { initialCount: string | number}
+
+function App( {initialCount}: Props) {
   const [viewport, setViewport] = useState({
     width: '85vw',
     height: '80vh',
@@ -15,6 +18,8 @@ function App() {
     longitude: -44.4360,
     zoom: 2.7
   });
+
+
 
   const [currentPinId, setCurrentPinId] = useState(null);
   const myStorage = window.localStorage;
@@ -25,7 +30,7 @@ function App() {
   const [pins, setPins] = useState([]);
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(initialCount);
 
   const getAllPins = async () => {
     try {
