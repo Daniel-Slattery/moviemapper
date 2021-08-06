@@ -4,9 +4,9 @@ const mongoose = require('mongoose');
 const pinRoute = require('./routes/pin');
 const userRoute = require('./routes/users');
 require('dotenv').config();
-const PORT = process.env.PORT;
-const DB_URL = process.env.DB_URL;
-const DB_NAME = process.env.DB_NAME;
+const PORT = 3001;
+const DB_URL = "mongodb://localhost:27017/";
+const DB_NAME = "messageDB";
 const app = express();
 
 app.use(cors());

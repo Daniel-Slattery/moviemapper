@@ -15,7 +15,7 @@ function App() {
     longitude: -44.4360,
     zoom: 2.7
   });
-  
+
   const [currentPinId, setCurrentPinId] = useState(null);
   const myStorage = window.localStorage;
   const [currentUser, setCurrentUser] = useState(myStorage.getItem('user'));
@@ -29,7 +29,7 @@ function App() {
 
   const getAllPins = async () => {
     try {
-      const res = await axios.get(process.env.REACT_APP_API);
+      const res = await axios.get('http://localhost:3001/routes/pins');
       setPins(res.data);
     } catch (e) {
       console.log(e)
@@ -38,11 +38,11 @@ function App() {
 
   const handlePopupClick = (id, lat, long) => {
     setCurrentPinId(id);
-    setViewport({...viewport, latitude: lat, longitude: long})
+    setViewport({ ...viewport, latitude: lat, longitude: long })
   };
 
   const handlePinClick = (e) => {
-    const [longitude,latitude] = e.lngLat;
+    const [longitude, latitude] = e.lngLat;
     setNewPin({
       latitude,
       longitude
@@ -60,7 +60,7 @@ function App() {
       longitude: newPin.longitude,
     };
     try {
-      const res = await axios.post(process.env.REACT_APP_API, newEntry);
+      const res = await axios.post('http://localhost:3001/routes/pins', newEntry);
       setPins([...pins, res.data]);
       setNewPin(null);
     } catch (e) {
@@ -75,76 +75,78 @@ function App() {
 
   useEffect(() => {
     getAllPins()
-  },[])
+  }, [])
 
   return (
     <div className="App">
-      <h1 className='movieMapper'>Movie Mapper<Room className='titleLogo' style={{fontSize:36.2}}></Room></h1>
-      {currentUser ? (<button className='button logout' onClick={handleLogout}>Logout</button>) 
-      : (<div className='buttons'>
-        <button className='button login' onClick={()=>setShowLogin(true)}>Login</button>
-        <div className="divider"/>
-        <button className='button register' onClick={()=>setShowRegister(true)}>Register</button>
+      <h1 className='movieMapper'>Movie Mapper<Room className='titleLogo' style={{ fontSize: 36.2 }}></Room></h1>
+      {currentUser ? (<button className='button logout' onClick={handleLogout}>Logout</button>)
+        : (<div className='buttons'>
+          <button className='button login' onClick={() => setShowLogin(true)}>Login</button>
+          <div className="divider" />
+          <button className='button register' onClick={() => setShowRegister(true)}>Register</button>
         </div>)}
-        {showRegister && <Register setShowRegister={setShowRegister}/>}
-        {showLogin && <Login 
-        setShowLogin={setShowLogin} 
+      {showRegister && <Register setShowRegister={setShowRegister} />}
+      {showLogin && <Login
+        setShowLogin={setShowLogin}
         myStorage={myStorage}
-        setCurrentUser={setCurrentUser}/>}
+        setCurrentUser={setCurrentUser} />}
       <ReactMapGL
-      {...viewport}
-      mapboxApiAccessToken={process.env.REACT_APP_MAPBOX}
-      onViewportChange={nextViewport => setViewport(nextViewport)}
-      mapStyle='mapbox://styles/sebastiangreen/ckrnp8ur54xux17mswwup4dhk'
-      onDblClick={handlePinClick}
-    > 
+        {...viewport}
+        mapboxApiAccessToken={'pk.eyJ1Ijoic2ViYXN0aWFuZ3JlZW4iLCJhIjoiY2tybmxkMnI4MGVrdTJvbzk1ZDViMDFpaCJ9.J3z9hhV88A9oCQ2511510w'} //process.env.REACT_APP_MAPBOX
+        onViewportChange={nextViewport => setViewport(nextViewport)}
+        mapStyle='mapbox://styles/sebastiangreen/ckrnp8ur54xux17mswwup4dhk'
+        onDblClick={handlePinClick}
+      >
 
-    {pins.map(pin => (
-    <>
-    <Marker
-    latitude={pin.latitude} 
-    longitude={pin.longitude} 
-    offsetLeft={-viewport.zoom * 4.25} 
-    offsetTop={-viewport.zoom * 8.5}
-    >
-    <Room style={{fontSize:viewport.zoom * 8.5,
-                  color: pin.username === currentUser ? 'lightcoral' : '#8b95c9',
-                  cursor: 'pointer'}}
-                  onClick={() => handlePopupClick(pin._id, pin.latitude, pin.longitude)}/>
-    </Marker>
-    {pin._id === currentPinId && (
-      <Popup
-          latitude={pin.latitude}
-          longitude={pin.longitude}
-          closeButton={true}
-          closeOnClick={false}
-          anchor="bottom"
-          onClose={()=>setCurrentPinId(null)}
-          >
-          <div className='popup'>
-            <Info pin={pin}/>
-          </div>
-        </Popup>
-    )}
-        </>
+        {pins.map(pin => (
+          <>
+            <Marker
+              latitude={pin.latitude}
+              longitude={pin.longitude}
+              offsetLeft={-viewport.zoom * 4.25}
+              offsetTop={-viewport.zoom * 8.5}
+            >
+              <Room style={{
+                fontSize: viewport.zoom * 8.5,
+                color: pin.username === currentUser ? 'lightcoral' : '#8b95c9',
+                cursor: 'pointer'
+              }}
+                onClick={() => handlePopupClick(pin._id, pin.latitude, pin.longitude)} />
+            </Marker>
+            {pin._id === currentPinId && (
+              <Popup
+                latitude={pin.latitude}
+                longitude={pin.longitude}
+                closeButton={true}
+                closeOnClick={false}
+                anchor="bottom"
+                onClose={() => setCurrentPinId(null)}
+              >
+                <div className='popup'>
+                  <Info pin={pin} />
+                </div>
+              </Popup>
+            )}
+          </>
         ))}
         {newPin && (
-        <Popup
-          latitude={newPin.latitude}
-          longitude={newPin.longitude}
-          closeButton={true}
-          closeOnClick={false}
-          anchor="bottom"
-          onClose={()=>setNewPin(null)}
+          <Popup
+            latitude={newPin.latitude}
+            longitude={newPin.longitude}
+            closeButton={true}
+            closeOnClick={false}
+            anchor="bottom"
+            onClose={() => setNewPin(null)}
           >
             <div>
               <form onSubmit={handleSubmit}>
                 <label>Location</label>
-                <input placeholder='Enter a location' onChange={(e)=>setLocation(e.target.value)}/>
+                <input placeholder='Enter a location' onChange={(e) => setLocation(e.target.value)} />
                 <label>Movie</label>
-                <textarea placeholder='This place appeared in...' onChange={(e)=>setMovie(e.target.value)}/>
+                <textarea placeholder='This place appeared in...' onChange={(e) => setMovie(e.target.value)} />
                 <label>Rating</label>
-                <select onChange={(e)=>setRating(e.target.value)}>
+                <select onChange={(e) => setRating(e.target.value)}>
                   <option value='1'>1</option>
                   <option value='2'>2</option>
                   <option value='3'>3</option>
@@ -154,7 +156,7 @@ function App() {
                 <button className='submitButton' type='submit'>Add Pin</button>
               </form>
             </div>
-        </Popup>
+          </Popup>
         )}
       </ReactMapGL>
     </div>
