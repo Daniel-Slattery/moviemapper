@@ -4,7 +4,7 @@ import { Room, Close } from '@material-ui/icons'
 import { useRef, useState } from 'react';
 import axios from 'axios';
 
-type Props= { setShowRegister: any}
+type Props= { setShowRegister: (showRegister: boolean) => void}
 
 export default function Register({setShowRegister}: Props) {
   const [success, setSuccess] = useState(false);
@@ -13,7 +13,7 @@ export default function Register({setShowRegister}: Props) {
   const emailRef = useRef(null);
   const passRef = useRef(null);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newUser = {
       username: nameRef.current.value,

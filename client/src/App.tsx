@@ -36,7 +36,7 @@ function App() {
   const [movie, setMovie] = useState(null);
   const [newPin, setNewPin] = useState(null);
   const [pins, setPins] = useState([]);
-  const [showLogin, setShowLogin] = useState<boolean>(false);
+  const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [rating, setRating] = useState("0");
 

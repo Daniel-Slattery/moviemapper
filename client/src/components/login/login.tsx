@@ -4,9 +4,11 @@ import { Room, Close } from '@material-ui/icons'
 import { useRef, useState } from 'react';
 import axios from 'axios';
 
-type Props ={ setShowLogin: any,
-myStorage: any, 
-setCurrentUser:any }
+type Props = { 
+  setShowLogin: (showLogin: boolean) => void,
+myStorage: {setItem: (key: string, value: string) => void}, 
+setCurrentUser: (currentUser: string) => void 
+}
 
 
 export default function Login({setShowLogin, myStorage, setCurrentUser}: Props) {
@@ -15,7 +17,7 @@ export default function Login({setShowLogin, myStorage, setCurrentUser}: Props) 
   const nameRef = useRef(null);
   const passRef = useRef(null);
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const user = {
       username: nameRef.current.value,
