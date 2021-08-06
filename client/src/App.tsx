@@ -17,6 +17,16 @@ function App() {
     longitude: -44.4360,
     zoom: 2.7
   });
+
+  type viewPort = {
+    width: string, 
+    height: string, 
+    latitude: number, 
+    longitude: number,
+    zoom: number,
+  }
+
+  
   
 
   const [currentPinId, setCurrentPinId] = useState(null);
@@ -39,12 +49,12 @@ function App() {
     }
   }
 
-  const handlePopupClick = (id, lat, long) => {
+  const handlePopupClick = (id: number, lat: number, long: number) => {
     setCurrentPinId(id);
     setViewport({ ...viewport, latitude: lat, longitude: long })
   };
 
-  const handlePinClick = (e) => {
+  const handlePinClick = (e: {lngLat: number[]}) => {
     const [longitude, latitude] = e.lngLat;
     setNewPin({
       latitude,
@@ -52,7 +62,7 @@ function App() {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newEntry = {
       username: currentUser,
@@ -97,7 +107,7 @@ function App() {
       <ReactMapGL
         {...viewport}
         mapboxApiAccessToken={'pk.eyJ1Ijoic2ViYXN0aWFuZ3JlZW4iLCJhIjoiY2tybmxkMnI4MGVrdTJvbzk1ZDViMDFpaCJ9.J3z9hhV88A9oCQ2511510w'} //process.env.REACT_APP_MAPBOX
-        onViewportChange={nextViewport => setViewport(nextViewport)}
+        onViewportChange={(nextViewport: viewPort) => setViewport(nextViewport)}
         mapStyle='mapbox://styles/sebastiangreen/ckrnp8ur54xux17mswwup4dhk'
         onDblClick={handlePinClick}
       >
