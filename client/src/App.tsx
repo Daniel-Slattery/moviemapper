@@ -26,16 +26,25 @@ function App() {
     zoom: number,
   }
 
-  
-  
+  type Pin = {
+    title: string,
+    description: string,
+    username: string,
+    createdAt: Date,
+    rating: number,
+    longitude: number, 
+    latitude: number, 
+    _id: number,
+  }
 
-  const [currentPinId, setCurrentPinId] = useState(null);
+
+  const [currentPinId, setCurrentPinId] = useState(0);
   const myStorage = window.localStorage;
   const [currentUser, setCurrentUser] = useState(myStorage.getItem('user'));
-  const [location, setLocation] = useState(null);
-  const [movie, setMovie] = useState(null);
-  const [newPin, setNewPin] = useState(null);
-  const [pins, setPins] = useState([]);
+  const [location, setLocation] = useState('');
+  const [movie, setMovie] = useState('');
+  const [newPin, setNewPin] = useState({latitude: 0, longitude: 0});
+  const [pins, setPins] = useState<Array<Pin>>([]);
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [rating, setRating] = useState("0");
@@ -75,7 +84,7 @@ function App() {
     try {
       const res = await axios.post('http://localhost:3001/routes/pins', newEntry);
       setPins([...pins, res.data]);
-      setNewPin(null);
+      setNewPin({latitude: 0, longitude: 0});
     } catch (e) {
       console.log(e, 'error here')
     }
@@ -134,7 +143,7 @@ function App() {
                 closeButton={true}
                 closeOnClick={false}
                 anchor="bottom"
-                onClose={() => setCurrentPinId(null)}
+                onClose={() => setCurrentPinId(0)}
               >
                 <div className='popup'>
                   <Info pin={pin} />
@@ -150,7 +159,7 @@ function App() {
             closeButton={true}
             closeOnClick={false}
             anchor="bottom"
-            onClose={() => setNewPin(null)}
+            onClose={() => setNewPin({latitude: 0, longitude: 0})}
           >
             <div>
               <form onSubmit={handleSubmit}>

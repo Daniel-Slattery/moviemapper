@@ -14,14 +14,14 @@ setCurrentUser: (currentUser: string) => void
 export default function Login({setShowLogin, myStorage, setCurrentUser}: Props) {
   const [error, setError] = useState(false);
 
-  const nameRef = useRef(null);
-  const passRef = useRef(null);
+  const nameRef = useRef<HTMLInputElement | null>(null)
+  const passRef = useRef<HTMLInputElement | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const user = {
-      username: nameRef.current.value,
-      password: passRef.current.value
+      username: nameRef?.current?.value,
+      password: passRef?.current?.value
     };
     try {
       const res = await axios.post('http://localhost:3001/routes/users/login', user);
