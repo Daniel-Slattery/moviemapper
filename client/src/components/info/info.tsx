@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Star } from '@material-ui/icons';
 import './info.css';
-import * as moment from 'moment';
+import moment from 'moment';
 
 type Props = { pin: {
   title: String;

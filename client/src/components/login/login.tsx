@@ -4,13 +4,18 @@ import { Room, Close } from '@material-ui/icons'
 import { useRef, useState } from 'react';
 import axios from 'axios';
 
-export default function Login({setShowLogin, myStorage, setCurrentUser}) {
+type Props ={ setShowLogin: any,
+myStorage: any, 
+setCurrentUser:any }
+
+
+export default function Login({setShowLogin, myStorage, setCurrentUser}: Props) {
   const [error, setError] = useState(false);
 
   const nameRef = useRef(null);
   const passRef = useRef(null);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
     const user = {
       username: nameRef.current.value,

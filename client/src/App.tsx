@@ -36,7 +36,7 @@ function App() {
   const [movie, setMovie] = useState(null);
   const [newPin, setNewPin] = useState(null);
   const [pins, setPins] = useState([]);
-  const [showLogin, setShowLogin] = useState(false);
+  const [showLogin, setShowLogin] = useState<boolean>(false);
   const [showRegister, setShowRegister] = useState(false);
   const [rating, setRating] = useState("0");
 
@@ -49,7 +49,7 @@ function App() {
     }
   }
 
-  const handlePopupClick = (id: number, lat: number, long: number) => {
+  const handlePopupClick = (id:number, lat:number, long:number) => {
     setCurrentPinId(id);
     setViewport({ ...viewport, latitude: lat, longitude: long })
   };
@@ -58,7 +58,7 @@ function App() {
     const [longitude, latitude] = e.lngLat;
     setNewPin({
       latitude,
-      longitude
+      longitude,
     });
   };
 
