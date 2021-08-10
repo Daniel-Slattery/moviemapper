@@ -43,7 +43,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState(myStorage.getItem('user'));
   const [location, setLocation] = useState('');
   const [movie, setMovie] = useState('');
-  const [newPin, setNewPin] = useState({latitude: 0, longitude: 0});
+  const [newPin, setNewPin] = useState({latitude: 25, longitude: 71});
   const [pins, setPins] = useState<Array<Pin>>([]);
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
@@ -84,7 +84,7 @@ function App() {
     try {
       const res = await axios.post('http://localhost:3001/routes/pins', newEntry);
       setPins([...pins, res.data]);
-      setNewPin({latitude: 0, longitude: 0});
+      setNewPin({latitude: 25, longitude: 71});
     } catch (e) {
       console.log(e, 'error here')
     }
@@ -152,7 +152,7 @@ function App() {
             )}
           </>
         ))}
-        {newPin && (
+        {newPin && newPin.latitude !== 25 && newPin.longitude !== 71 && (
           <Popup
             latitude={newPin.latitude}
             longitude={newPin.longitude}
