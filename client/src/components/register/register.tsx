@@ -37,12 +37,14 @@ export default function Register({setShowRegister}: Props) {
         Movie Mapper
         <Room />
       </div>
-      <form data-testid='formid' onSubmit={handleSubmit}>
-        <input type='text' placeholder='username' name='username' ref={nameRef}/>
+      <form id='formid' >
+        <label> Username:
+        <input  type='text' placeholder='username' name='username' ref={nameRef}/>
+        </label>
         <input type='email' placeholder='email' name='email' ref={emailRef}/>
         <input type='password' placeholder='password' name='password' ref={passRef}/>
-        <button className='registerButton'>Register</button>
-        {success &&
+        <button className='registerButton' onSubmit={handleSubmit}>Register</button>
+        {success && 
         <span className='success'>User successfully created, you may log in!</span>
       }
         {error &&
