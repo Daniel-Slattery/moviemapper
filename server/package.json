@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "jest": {"testEnvironment": "node"},
   "scripts": {
     "start": "nodemon index.js",
-    "test": "jest"
+    "test": "SET NODE_ENV=testing && jest"
   },
   "author": "",
   "license": "ISC",

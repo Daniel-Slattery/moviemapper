@@ -1,9 +1,9 @@
-
+require('dotenv').config();
 const mongoose = require('mongoose');
-const DB_URL = "mongodb://localhost:27017/";
-const DB_NAME = "movie";
+const dbName = process.env.NODE_ENV === 'development' ? process.env.DB_NAME : process.env.DB_NAME_TEST
 
-mongoose.connect(`${DB_URL}${DB_NAME}`, {
+
+mongoose.connect(`${process.env.DB_URL}${dbName}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })

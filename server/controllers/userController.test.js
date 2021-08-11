@@ -1,7 +1,23 @@
+// BEFORE RUNNING, CHANGE DB_NAME TO TEST IN MODELS/INDEX.JS
+
 
 const request = require('supertest');
-const app = require('../index');
 const User = require('../models/user');
+
+
+const express = require('express')
+const userRoute = require('../routes/users');
+
+const app = express();
+const cors = require('cors');
+
+
+app.use(cors());
+app.use(express.json());
+app.use('/routes/users', userRoute);
+
+
+
 
 afterEach(async () => {
     await User.deleteMany();
