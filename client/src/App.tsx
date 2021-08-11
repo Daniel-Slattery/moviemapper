@@ -45,7 +45,7 @@ function App() {
   const [movie, setMovie] = useState('');
   const [newPin, setNewPin] = useState({latitude: 25, longitude: 71});
   const [pins, setPins] = useState<Array<Pin>>([]);
-  const [showLogin, setShowLogin] = useState(false);
+  const [showLogin, setShowLogin] = useState<Boolean>(false);
   const [showRegister, setShowRegister] = useState(false);
   const [rating, setRating] = useState("0");
 
