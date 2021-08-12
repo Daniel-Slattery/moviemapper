@@ -122,7 +122,7 @@ function App() {
       >
 
         {pins.map(pin => (
-          <>
+          <div key={Math.random()}>
             <Marker
               latitude={pin.latitude}
               longitude={pin.longitude}
@@ -150,7 +150,7 @@ function App() {
                 </div>
               </Popup>
             )}
-          </>
+          </div>
         ))}
         {newPin && newPin.latitude !== 25 && newPin.longitude !== 71 && (
           <Popup
